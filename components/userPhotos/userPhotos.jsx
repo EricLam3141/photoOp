@@ -1,34 +1,57 @@
 import React from 'react';
-import {
-  Typography
-} from '@mui/material';
+import { Typography, List, ListItem, ListItemText, Link } from '@mui/material';
 import './userPhotos.css';
 
-
-/**
- * Define UserPhotos, a React componment of project #5
- */
 class UserPhotos extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { userPhotos: [] };
+  }
 
+  componentDidMount() {
+    const userId = this.props.match.params.userId;
+    const userPhotos = window.models.photoOfUserModel(userId);
+    this.setState({ userPhotos } );
   }
 
   render() {
-    return (
-      <Typography variant="body1">
-      This should be the UserPhotos view of the PhotoShare app. Since
-      it is invoked from React Router the params from the route will be
-      in property match. So this should show details of user:
-      {this.props.match.params.userId}. You can fetch the model for the user from
-      window.models.photoOfUserModel(userId):
-        <Typography variant="caption">
-          {JSON.stringify(window.models.photoOfUserModel(this.props.match.params.userId))}
-        </Typography>
-      </Typography>
+    const { userPhotos } = this.state;
 
+    if (!userPhotos || userPhotos.length === 0) {
+      return <Typography variant="body1">Loading...</Typography>;
+    }
+
+    return (
+        <div className="userPhotos">
+          {Array.isArray(userPhotos) && userPhotos.map(photo => (
+              <div key={photo._id} className="photoContainer">
+                <img src={`../images/${photo.file_name}`} alt="User's post" />
+                <Typography variant="body1">{photo.date_time}</Typography>
+                <List component="nav">
+                  {photo.comments.map(comment => (
+                      <ListItem key={comment._id}>
+                        <ListItemText
+                            primary={comment.comment}
+                            secondary={
+                              <React.Fragment>
+                                <Link to={`/users/${comment.user._id}`}>
+                                  {`${comment.user.first_name} ${comment.user.last_name}`}
+                                </Link>
+                                {` - ${comment.date_time}`}
+                              </React.Fragment>
+                            }
+                        />
+                      </ListItem>
+                  ))}
+                </List>
+              </div>
+          ))}
+        </div>
     );
   }
+
+
 }
 
 export default UserPhotos;
+
