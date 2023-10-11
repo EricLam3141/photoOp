@@ -1,10 +1,10 @@
 # Srum Team
 ## Product Owner:
-Person 1 
+Philip Smith 
 ## Scrum Master:
-Person 2 
+Andrew Bertlshofer
 ## Developers
-- Person 3
-- Person 4
-- Person 5
-- Person 6
+- Sandeep Senthilkumar
+- Sai Maw
+- Eric Lam
+- Anshuk Gottipati
