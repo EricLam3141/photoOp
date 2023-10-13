@@ -12,7 +12,7 @@ class UserPhotos extends React.Component {
     const userId = this.props.match.params.userId;
     const userPhotos = window.models.photoOfUserModel(userId);
     this.setState({ userPhotos } );
-    console.log()
+    console.log();
   }
 
   render() {
